@@ -1,0 +1,75 @@
+= riff Buildpack Group
+
+This repository hosts the files necessary to create the buildpack builder used when
+riff builds functions from source with the `riff function create <buildpack> <fn-name>`
+command.
+
+== Relation to the https://github.com/projectriff/riff-buildpack[projectriff/riff-buildpack] Repository
+In the v3 buildpack ecosystem, a distinction needs to be made between a _buildpack_
+and a _builder_.
+
+The latter is what is actually involved when running `riff function create` with the
+`java` buildpack approach. A _builder_ is the composition of several _buildpacks_ using groups.
+It takes the form of a docker image. In the case of riff, its official location is
+https://hub.docker.com/r/projectriff/buildpack/[projectriff/buildpack].
+The purpose of this repository is to allow the creation of that builder.
+
+The former, a _buildpack_, is a more fine grained unit of logic that can be composed and
+collaborate with other buildpacks. The https://github.com/projectriff/riff-buildpack[projectriff/riff-buildpack]
+repository hosts one of them, responsible for applying the riff-specific logic on top of
+the more general java building logic. As more languages become supported by riff,
+that buildpack will evolve to collaborate with other buildpacks (_e.g._ `node`), while this
+repository's `builder-riff.toml` file will enhance its group(s) to reference _e.g._ the generic
+`node` buildpack.
+
+== Building
+=== Prerequisites
+To build the `projectriff/buildpack` builder you'll need
+
+* a running local docker daemon
+* the https://github.com/buildpack/pack[`pack`] command line tool. At the time of writing,
+a version built from `master` is required (to support references to remote buildpacks in `builder-riff.toml`):
++
+[source,bash]
+----
+git clone https://github.com/buildpack/pack`
+cd pack
+go install ./cmd/pack
+----
+
+=== Creating the Builder
+Then, building the builder is as simple as
+[source,bash]
+----
+git clone https://github.com/projectriff/riff-buildpack-group
+cd riff-buildpack-group
+pack create-builder -b builder-riff.toml projectriff/buildpack
+----
+
+=== Using the Builder Locally
+Lastly, to use the builder created above, just refer to the `pack build` reference:
+[source, bash]
+----
+cd where-your-function-is
+pack build --builder projectriff/buildpack --no-pull -p . your-org/my-function
+----
+
+You should get something similar to
+[source,bash]
+----
+2018/10/17 12:11:51 Selected run image 'packs/run' from stack 'io.buildpacks.stacks.bionic'
+*** DETECTING:
+2018/10/17 10:11:53 Group: Cloud Foundry OpenJDK Buildpack: pass | Cloud Foundry Build System Buildpack: pass | riff Buildpack: pass
+*** ANALYZING: Reading information from previous image for possible re-use
+*** BUILDING:
+-----> Cloud Foundry OpenJDK Buildpack 1.0.0-BUILD-SNAPSHOT
+-----> OpenJDK JDK 1.8.181: Reusing cached dependency
+-----> OpenJDK JRE 1.8.181: Contributing to launch
+       Downloading from https://java-buildpack.cloudfoundry.org/openjdk/bionic/x86_64/openjdk-1.8.0_181.tar.gz
+[...]
+---> Running in 68e4eef095c7
+---> f36967212b6c
+---> f36967212b6c
+Successfully built f36967212b6c
+Successfully tagged your-org/my-function
+----

@@ -1,0 +1,28 @@
+[[buildpacks]]
+id = "io.projectriff.riff"
+uri = "http://repo.spring.io/libs-snapshot/io/projectriff/riff/io.projectriff.riff/1.0.0-BUILD-SNAPSHOT/io.projectriff.riff-1.0.0-BUILD-20180921.204400-1.tgz"
+
+[[buildpacks]]
+id = "org.cloudfoundry.buildsystem"
+uri = "http://repo.spring.io/libs-snapshot/org/cloudfoundry/buildsystem/org.cloudfoundry.buildsystem/1.0.0-BUILD-SNAPSHOT/org.cloudfoundry.buildsystem-1.0.0-BUILD-20180921.204046-1.tgz"
+
+[[buildpacks]]
+id = "org.cloudfoundry.openjdk"
+uri = "http://repo.spring.io/libs-snapshot/org/cloudfoundry/openjdk/org.cloudfoundry.openjdk/1.0.0-BUILD-SNAPSHOT/org.cloudfoundry.openjdk-1.0.0-BUILD-20180921.211503-1.tgz"
+
+[[groups]]
+
+  [[groups.buildpacks]]
+  id = "org.cloudfoundry.openjdk"
+  version = "1.0.0-BUILD-SNAPSHOT"
+
+
+  [[groups.buildpacks]]
+  id = "org.cloudfoundry.buildsystem"
+  version = "1.0.0-BUILD-SNAPSHOT"
+  optional = true
+
+  [[groups.buildpacks]]
+  id = "io.projectriff.riff"
+  version = "1.0.0-BUILD-SNAPSHOT"
+
