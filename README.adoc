@@ -26,15 +26,16 @@ repository's `builder-riff.toml` file will enhance its group(s) to reference _e.
 === Prerequisites
 To build the `projectriff/buildpack` builder you'll need
 
+* Go 1.11+
 * a running local docker daemon
 * the https://github.com/buildpack/pack[`pack`] command line tool. At the time of writing,
 a version built from `master` is required (to support references to remote buildpacks in `builder-riff.toml`):
 +
 [source,bash]
 ----
-git clone https://github.com/buildpack/pack`
+git clone https://github.com/buildpack/pack
 cd pack
-go install ./cmd/pack
+GO111MODULE=on go install ./cmd/pack
 ----
 
 === Creating the Builder
