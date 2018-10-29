@@ -1,0 +1,11 @@
+language: bash
+sudo: required
+services:
+  - docker
+install: .travis/install-pack.sh
+script: .travis/create-builder.sh
+deploy:
+  provider: script
+  script: .travis/push-to-dockerhub.sh
+  on:
+    branch: master
