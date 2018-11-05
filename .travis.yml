@@ -5,7 +5,8 @@ services:
 install: .travis/install-pack.sh
 script: .travis/create-builder.sh
 deploy:
+  skip_cleanup: true
   provider: script
-  script: .travis/push-to-dockerhub.sh
+  script: .travis/push-to-dockerhub.sh && .travis/push-buildtemplate-to-gcs.sh
   on:
     branch: master
