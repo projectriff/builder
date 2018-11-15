@@ -5,6 +5,9 @@ set -o nounset
 set -o pipefail
 
 version=`cat VERSION`
+id=`docker image inspect projectriff/builder --format '{{.Id}}' | awk '{print substr($1, 8, 12)}'`
+CI_TAG="${version}-ci-${id}"
+
 gcloud auth activate-service-account --key-file <(echo $GCLOUD_CLIENT_SECRET | base64 --decode)
 
 sed "s|projectriff/builder:latest|projectriff/builder:${CI_TAG}|" riff-cnb-buildtemplate.yaml > riff-cnb-buildtemplate-${CI_TAG}.yaml

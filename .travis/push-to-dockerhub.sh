@@ -6,7 +6,7 @@ set -o pipefail
 
 version=`cat VERSION`
 id=`docker image inspect projectriff/builder --format '{{.Id}}' | awk '{print substr($1, 8, 12)}'`
-export CI_TAG="${version}-ci-${id}"
+CI_TAG="${version}-ci-${id}"
 
 docker tag projectriff/builder:latest projectriff/builder:${version}
 docker tag projectriff/builder:latest projectriff/builder:${CI_TAG}
