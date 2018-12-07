@@ -42,5 +42,5 @@ uri = "https://storage.googleapis.com/projectriff/npm-buildpack/npm-cnb-c1b7bcfe
 
   [[groups.buildpacks]]
   id = "io.projectriff.riff"
-  version = "0.1.1-BUILD-SNAPSHOT"
+  version = "0.2.0-BUILD-SNAPSHOT"
 
