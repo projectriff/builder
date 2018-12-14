@@ -1,0 +1,21 @@
+[[testcases]]
+repo = "https://github.com/projectriff-samples/node-square"
+input = "7"
+content-type = "application/json"
+output = "49"
+
+[[testcases]]
+repo = "https://github.com/projectriff-samples/command-hello"
+artifact = "greet.sh"
+input = "world"
+content-type = "text/plain"
+output = "Hello world"
+
+[[testcases]]
+repo = "https://github.com/projectriff-samples/java-hello"
+handler = "functions.Hello"
+input = "WORLD"
+content-type = "application/json"
+output = "Hello WORLD"
+
+
