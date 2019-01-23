@@ -13,4 +13,5 @@ docker tag projectriff/builder:latest projectriff/builder:${CI_TAG}
 docker rmi projectriff/builder:latest
 
 docker login -u "${DOCKER_USERNAME}" -p "${DOCKER_PASSWORD}"
-docker push projectriff/builder
+docker push projectriff/builder:${version}
+docker push projectriff/builder:${CI_TAG}
