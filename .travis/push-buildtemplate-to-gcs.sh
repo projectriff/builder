@@ -15,5 +15,3 @@ sed "s|projectriff/builder:latest|projectriff/builder:${version}|" riff-cnb-buil
 
 gsutil cp -a public-read riff-cnb-buildtemplate-${CI_TAG}.yaml gs://projectriff/riff-buildtemplate/
 gsutil cp -a public-read riff-cnb-buildtemplate-${version}.yaml gs://projectriff/riff-buildtemplate/
-gsutil cp -a public-read riff-cnb-buildtemplate.yaml gs://projectriff/riff-buildtemplate/
-

@@ -10,7 +10,6 @@ CI_TAG="${version}-ci-${id}"
 
 docker tag projectriff/builder:latest projectriff/builder:${version}
 docker tag projectriff/builder:latest projectriff/builder:${CI_TAG}
-docker rmi projectriff/builder:latest
 
 docker login -u "${DOCKER_USERNAME}" -p "${DOCKER_PASSWORD}"
 docker push projectriff/builder:${version}
