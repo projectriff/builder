@@ -1,9 +1,11 @@
-language: bash
+language: go
+go:
+  - '1.11.4'
 sudo: required
 services:
   - docker
 install: .travis/install-pack.sh
-script: .travis/create-builder.sh
+script: .travis/create-builder.sh && make test
 deploy:
   skip_cleanup: true
   provider: script

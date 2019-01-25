@@ -1,7 +1,11 @@
-.PHONY: build
+.PHONY: build test grab-run-image
 
 build:
 	pack create-builder -b builder-riff.toml projectriff/builder
 
-test:
-	pushd integration-tests && go run main.go
+test: grab-run-image
+	cd integration-tests && GO111MODULE=on go run main.go
+
+grab-run-image:
+	docker pull packs/run:v3alpha2
+
