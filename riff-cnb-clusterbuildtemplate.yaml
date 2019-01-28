@@ -1,17 +1,5 @@
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: riff-cnb-cache
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 8Gi
----
 apiVersion: build.knative.dev/v1alpha1
-kind: BuildTemplate
+kind: ClusterBuildTemplate
 metadata:
   name: riff-cnb
 spec:
