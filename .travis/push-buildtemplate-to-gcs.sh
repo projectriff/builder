@@ -10,9 +10,13 @@ CI_TAG="${version}-ci-${id}"
 
 gcloud auth activate-service-account --key-file <(echo $GCLOUD_CLIENT_SECRET | base64 --decode)
 
-sed "s|projectriff/builder:latest|projectriff/builder:${CI_TAG}|" riff-cnb-buildtemplate.yaml > riff-cnb-buildtemplate-${CI_TAG}.yaml
-sed "s|projectriff/builder:latest|projectriff/builder:${version}|" riff-cnb-buildtemplate.yaml > riff-cnb-buildtemplate-${version}.yaml
+sed "s|projectriff/builder:latest|projectriff/builder:${CI_TAG}|" riff-cnb-clusterbuildtemplate.yaml > riff-cnb-clusterbuildtemplate-${CI_TAG}.yaml
+sed "s|projectriff/builder:latest|projectriff/builder:${version}|" riff-cnb-clusterbuildtemplate.yaml > riff-cnb-clusterbuildtemplate-${version}.yaml
 
-gsutil cp -a public-read riff-cnb-buildtemplate-${CI_TAG}.yaml gs://projectriff/riff-buildtemplate/
-gsutil cp -a public-read riff-cnb-buildtemplate-${version}.yaml gs://projectriff/riff-buildtemplate/
-gsutil cp -a public-read riff-cnb-buildtemplate-${CI_TAG}.yaml gs://projectriff/riff-buildtemplate/riff-cnb-buildtemplate.yaml
+gsutil cp -a public-read riff-cnb-clusterbuildtemplate-${CI_TAG}.yaml gs://projectriff/riff-buildtemplate/
+gsutil cp -a public-read riff-cnb-clusterbuildtemplate-${version}.yaml gs://projectriff/riff-buildtemplate/
+gsutil cp -a public-read riff-cnb-clusterbuildtemplate-${CI_TAG}.yaml gs://projectriff/riff-buildtemplate/riff-cnb-buildtemplate.yaml
+
+gsutil cp -a public-read riff-cnb-cache.yaml gs://projectriff/riff-buildtemplate/riff-cnb-cache-${CI_TAG}.yaml
+gsutil cp -a public-read riff-cnb-cache.yaml gs://projectriff/riff-buildtemplate/riff-cnb-cache-${version}.yaml
+gsutil cp -a public-read riff-cnb-cache.yaml gs://projectriff/riff-buildtemplate/
