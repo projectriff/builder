@@ -19,28 +19,33 @@ spec:
     - name: RUN_IMAGE
       description: The run image buildpacks will use as the base for IMAGE.
       default: packs/run:v3alpha2
+    - name: BUILDER_IMAGE
+      description: The builder image provides the buildpacks that will build the IMAGE from source.
+      default: projectriff/builder:latest
+    - name: UTIL_IMAGE
+      description: The util image provides pack utilities to analyze and export built images.
+      default: packs/util
     - name: USE_CRED_HELPERS
       description: Use Docker credential helpers for Google's GCR, Amazon's ECR, or Microsoft's ACR.
       default: 'true'
-
   steps:
     - name: prepare
-      image: packs/base
+      image: ${UTIL_IMAGE}
       command: ["/lifecycle/knative-helper"]
       volumeMounts:
         - name: app-cache
           mountPath: /cache
       imagePullPolicy: Always
     - name: write-riff-toml
-      image: projectriff/builder:latest
+      image: ${UTIL_IMAGE}
       command: ["/bin/bash", "-c", "printf \"artifact = '${FUNCTION_ARTIFACT}'\\nhandler = '${FUNCTION_HANDLER}'\\noverride = '${FUNCTION_LANGUAGE}'\\n\" > app/riff.toml"]
       imagePullPolicy: Always
     - name: detect
-      image: projectriff/builder:latest
+      image: ${BUILDER_IMAGE}
       command: ["/lifecycle/detector"]
       imagePullPolicy: Always
     - name: analyze
-      image: packs/util
+      image: ${UTIL_IMAGE}
       command: ["/lifecycle/analyzer"]
       args: ["${IMAGE}"]
       env:
@@ -48,14 +53,14 @@ spec:
           value: ${USE_CRED_HELPERS}
       imagePullPolicy: Always
     - name: build
-      image: projectriff/builder:latest
+      image: ${BUILDER_IMAGE}
       command: ["/lifecycle/builder"]
       volumeMounts:
         - name: app-cache
           mountPath: /cache
       imagePullPolicy: Always
     - name: export
-      image: packs/util
+      image: ${UTIL_IMAGE}
       command: ["/lifecycle/exporter"]
       args: ["${IMAGE}"]
       env:
@@ -64,7 +69,6 @@ spec:
         - name: PACK_USE_HELPERS
           value: ${USE_CRED_HELPERS}
       imagePullPolicy: Always
-
   volumes:
     - name: app-cache
       persistentVolumeClaim:
