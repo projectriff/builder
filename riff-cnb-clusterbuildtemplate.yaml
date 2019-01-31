@@ -37,6 +37,8 @@ spec:
       command: ["/bin/sh"]
       args:
         - "-c"
+        # Change owner of files to the pack user so that later lifecycle comamnds can read them.
+        # Generate riff.toml
         - >
           chown -R "${USER_ID}:${GROUP_ID}" "/builder/home" &&
           chown -R "${USER_ID}:${GROUP_ID}" /layers &&
