@@ -88,7 +88,6 @@ spec:
     - name: export
       image: ${BUILDER_IMAGE}
       command: ["/lifecycle/exporter"]
-      args: ["${IMAGE}"]
       args:
         - "-layers=/layers"
         - "-helpers=${USE_CRED_HELPERS}"
