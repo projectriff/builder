@@ -3,6 +3,18 @@ id = "io.projectriff.riff"
 uri = "https://storage.googleapis.com/projectriff/riff-buildpack/latest.tgz"
 
 [[buildpacks]]
+id = "io.projectriff.java"
+uri = "https://storage.googleapis.com/projectriff/java-function-buildpack/latest.tgz"
+
+[[buildpacks]]
+id = "io.projectriff.node"
+uri = "https://storage.googleapis.com/projectriff/node-function-buildpack/latest.tgz"
+
+[[buildpacks]]
+id = "io.projectriff.command"
+uri = "https://storage.googleapis.com/projectriff/command-function-buildpack/latest.tgz"
+
+[[buildpacks]]
 id = "org.cloudfoundry.buildsystem"
 uri = "https://repo.spring.io/libs-milestone-local/org/cloudfoundry/buildsystem/org.cloudfoundry.buildsystem/1.0.0-M5/org.cloudfoundry.buildsystem-1.0.0-M5.tgz"
 
@@ -20,6 +32,8 @@ uri = "https://storage.googleapis.com/projectriff/npm-buildpack/npm-cnb-5c4c6ec2
 
 [[groups]]
 
+  # language runtime buildpacks
+
   [[groups.buildpacks]]
   id = "org.cloudfoundry.openjdk"
   version = "1.0.0-M5"
@@ -29,6 +43,8 @@ uri = "https://storage.googleapis.com/projectriff/npm-buildpack/npm-cnb-5c4c6ec2
   id = "org.cloudfoundry.buildpacks.nodejs"
   version = "0.0.2"
   optional = true # Irrelevant as this buildpack's detect is a noop, but set for clarity
+
+  # build-time buildpacks
 
   [[groups.buildpacks]]
   id = "org.cloudfoundry.buildsystem"
@@ -40,7 +56,25 @@ uri = "https://storage.googleapis.com/projectriff/npm-buildpack/npm-cnb-5c4c6ec2
   version = "0.0.3"
   optional = true
 
+  # riff function buildpacks
+
+ [[groups.buildpacks]]
+  id = "io.projectriff.java"
+  version = "0.1.4-BUILD-SNAPSHOT"
+  optional = true
+
+  [[groups.buildpacks]]
+  id = "io.projectriff.node"
+  version = "0.1.0-BUILD-SNAPSHOT"
+  optional = true
+
+  [[groups.buildpacks]]
+  id = "io.projectriff.command"
+  version = "0.0.8-BUILD-SNAPSHOT"
+  optional = true
+
+  # riff "finalizer" buildpack, must be after all other function buildpacks
   [[groups.buildpacks]]
   id = "io.projectriff.riff"
   version = "0.2.0-BUILD-SNAPSHOT"
-
+  optional = false # this buildpack's detect must pass
