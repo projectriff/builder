@@ -1,83 +1,34 @@
-[[buildpacks]]
-id = "io.projectriff.riff"
-uri = "https://storage.googleapis.com/projectriff/riff-buildpack/latest.tgz"
-
-[[buildpacks]]
-id = "io.projectriff.java"
-uri = "https://storage.googleapis.com/projectriff/java-function-buildpack/latest.tgz"
-
-[[buildpacks]]
-id = "io.projectriff.node"
-uri = "https://storage.googleapis.com/projectriff/node-function-buildpack/latest.tgz"
-
-[[buildpacks]]
-id = "io.projectriff.command"
-uri = "https://storage.googleapis.com/projectriff/command-function-buildpack/latest.tgz"
-
-[[buildpacks]]
-id = "org.cloudfoundry.buildsystem"
-uri = "https://repo.spring.io/libs-milestone-local/org/cloudfoundry/buildsystem/org.cloudfoundry.buildsystem/1.0.0-M5/org.cloudfoundry.buildsystem-1.0.0-M5.tgz"
-
-[[buildpacks]]
-id = "org.cloudfoundry.openjdk"
-uri = "https://repo.spring.io/libs-milestone-local/org/cloudfoundry/openjdk/org.cloudfoundry.openjdk/1.0.0-M5/org.cloudfoundry.openjdk-1.0.0-M5.tgz"
-
-[[buildpacks]]
-id = "org.cloudfoundry.buildpacks.nodejs"
-uri = "https://github.com/cloudfoundry/nodejs-cnb/releases/download/v0.0.4/nodejs-cnb-0.0.4.tgz"
-
-[[buildpacks]]
-id = "org.cloudfoundry.buildpacks.npm"
-uri = "https://github.com/cloudfoundry/npm-cnb/releases/download/v0.0.4/npm-cnb-0.0.4.tgz"
+buildpacks = [
+  { id = "io.projectriff.java",                uri = "https://storage.googleapis.com/projectriff/java-function-buildpack/latest.tgz" },
+  { id = "io.projectriff.node",                uri = "https://storage.googleapis.com/projectriff/node-function-buildpack/latest.tgz" },
+  { id = "io.projectriff.command",             uri = "https://storage.googleapis.com/projectriff/command-function-buildpack/latest.tgz" },
+  { id = "org.cloudfoundry.openjdk",           uri = "https://repo.spring.io/libs-milestone-local/org/cloudfoundry/openjdk/org.cloudfoundry.openjdk/1.0.0-M5/org.cloudfoundry.openjdk-1.0.0-M5.tgz" },
+  { id = "org.cloudfoundry.buildsystem",       uri = "https://repo.spring.io/libs-milestone-local/org/cloudfoundry/buildsystem/org.cloudfoundry.buildsystem/1.0.0-M5/org.cloudfoundry.buildsystem-1.0.0-M5.tgz" },
+  { id = "org.cloudfoundry.buildpacks.nodejs", uri = "https://github.com/cloudfoundry/nodejs-cnb/releases/download/v0.0.4/nodejs-cnb-0.0.4.tgz" },
+  { id = "org.cloudfoundry.buildpacks.npm",    uri = "https://github.com/cloudfoundry/npm-cnb/releases/download/v0.0.4/npm-cnb-0.0.4.tgz" },
+]
 
 [[groups]]
+  # java functions
+  buildpacks = [
+    { id = "org.cloudfoundry.openjdk",     version = "1.0.0-M5", optional = true },
+    { id = "org.cloudfoundry.buildsystem", version = "1.0.0-M5", optional = true },
+    { id = "io.projectriff.java", version = "0.1.4-BUILD-SNAPSHOT" },
+  ]
 
-  # language runtime buildpacks
-
-  [[groups.buildpacks]]
-  id = "org.cloudfoundry.openjdk"
-  version = "1.0.0-M5"
-  optional = true # Irrelevant as this buildpack's detect is a noop, but set for clarity
-
-  [[groups.buildpacks]]
-  id = "org.cloudfoundry.buildpacks.nodejs"
-  version = "0.0.4"
-  optional = true # Irrelevant as this buildpack's detect is a noop, but set for clarity
-
-  # build-time buildpacks
-
-  [[groups.buildpacks]]
-  id = "org.cloudfoundry.buildsystem"
-  version = "1.0.0-M5"
-  optional = true
-
-  [[groups.buildpacks]]
-  id = "org.cloudfoundry.buildpacks.npm"
-  version = "0.0.4"
-  optional = true
-
-  # riff function buildpacks
-
- [[groups.buildpacks]]
-  id = "io.projectriff.java"
-  version = "0.1.4-BUILD-SNAPSHOT"
-  optional = true
-
-  [[groups.buildpacks]]
-  id = "io.projectriff.node"
-  version = "0.1.0-BUILD-SNAPSHOT"
-  optional = true
-
-  [[groups.buildpacks]]
-  id = "io.projectriff.command"
-  version = "0.0.8-BUILD-SNAPSHOT"
-  optional = true
-
-  # riff "finalizer" buildpack, must be after all other function buildpacks
-  [[groups.buildpacks]]
-  id = "io.projectriff.riff"
-  version = "0.2.0-BUILD-SNAPSHOT"
-  optional = false # this buildpack's detect must pass
+[[groups]]
+  # node functions
+  buildpacks = [
+    { id = "org.cloudfoundry.buildpacks.nodejs", version = "0.0.4", optional = true },
+    { id = "org.cloudfoundry.buildpacks.npm",    version = "0.0.4", optional = true },
+    { id = "io.projectriff.node", version = "0.1.0-BUILD-SNAPSHOT" },
+  ]
+  
+[[groups]]
+  # command functions
+  buildpacks = [
+    { id = "io.projectriff.command", version = "0.0.8-BUILD-SNAPSHOT" },
+  ]
 
 [stack]
   id = "io.buildpacks.stacks.bionic"
