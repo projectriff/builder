@@ -34,7 +34,8 @@ import (
 )
 
 type testcases struct {
-	Testcases []testcase `toml:"Testcases"`
+	Common    testcase   `toml:"common"`
+	Testcases []testcase `toml:"testcases"`
 }
 
 type testcase struct {
@@ -48,10 +49,49 @@ type testcase struct {
 	SkipRebuild bool   `toml:"skip-rebuild"`
 }
 
+func (t testcase) merge(c testcase) testcase {
+	t.metadata = t.metadata.merge(c.metadata)
+
+	if t.Repo == "" {
+		t.Repo = c.Repo
+	}
+	if t.Refspec == "" {
+		t.Refspec = c.Refspec
+	}
+	if t.SubPath == "" {
+		t.SubPath = c.SubPath
+	}
+	if t.ContentType == "" {
+		t.ContentType = c.ContentType
+	}
+	if t.Input == "" {
+		t.Input = c.Input
+	}
+	if t.Output == "" {
+		t.Output = c.Output
+	}
+
+	return t
+}
+
 type metadata struct {
 	Artifact string `toml:"artifact"`
 	Handler  string `toml:"handler"`
 	Override string `toml:"override"`
+}
+
+func (m metadata) merge(c metadata) metadata {
+	if m.Artifact == "" {
+		m.Artifact = c.Artifact
+	}
+	if m.Handler == "" {
+		m.Handler = c.Handler
+	}
+	if m.Override == "" {
+		m.Override = c.Override
+	}
+
+	return m
 }
 
 func main() {
@@ -64,6 +104,7 @@ func main() {
 	}
 
 	for _, t := range tests.Testcases {
+		t = t.merge(tests.Common)
 		appdir, err := ioutil.TempDir("", "riff-buildpack-group-")
 		if err != nil {
 			log.Fatalf("could not create temp dir: %v", err)
