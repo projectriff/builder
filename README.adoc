@@ -1,4 +1,4 @@
-= riff Buildpack Group
+= riff Builder
 
 This repository hosts the files necessary to create the buildpack builder used when
 riff builds functions from source with the `riff function create <fn-name>`
