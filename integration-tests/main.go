@@ -105,7 +105,7 @@ func main() {
 
 	for _, t := range tests.Testcases {
 		t = t.merge(tests.Common)
-		appdir, err := ioutil.TempDir("", "riff-buildpack-group-")
+		appdir, err := ioutil.TempDir("", "builder-")
 		if err != nil {
 			log.Fatalf("could not create temp dir: %v", err)
 		} else {

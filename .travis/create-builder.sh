@@ -4,5 +4,4 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
-
-pack create-builder -b builder-riff.toml projectriff/builder:latest
+pack create-builder -b builder.toml projectriff/builder:latest

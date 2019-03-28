@@ -4,7 +4,7 @@ This repository hosts the files necessary to create the buildpack builder used w
 riff builds functions from source with the `riff function create <fn-name>`
 command.
 
-== Relation to the https://github.com/projectriff/riff-buildpack[projectriff/riff-buildpack] Repository
+== Relation to the https://github.com/projectriff?utf8=✓&q=function-buildpack[projectriff/*-fuction-buildpack] Repositories
 In the v3 buildpack ecosystem, a distinction needs to be made between a _buildpack_
 and a _builder_.
 
@@ -15,11 +15,11 @@ https://hub.docker.com/r/projectriff/builder/[projectriff/builder].
 The purpose of this repository is to allow the creation of that builder.
 
 The former, a _buildpack_, is a more fine grained unit of logic that can be composed and
-collaborate with other buildpacks. The https://github.com/projectriff/riff-buildpack[projectriff/riff-buildpack]
+collaborate with other buildpacks. The https://github.com/projectriff/java-function-buildpack[projectriff/java-function-buildpack]
 repository hosts one of them, responsible for applying the riff-specific logic on top of
 the more general _java_ or _node_ building logic. As more languages become supported by riff,
 that buildpack will evolve to collaborate with other buildpacks (_e.g._ `python`), while this
-repository's `builder-riff.toml` file will enhance its group(s) to reference _e.g._ the generic
+repository's `builder.toml` file will enhance its group(s) to reference _e.g._ the generic
 `python` buildpack.
 
 == Building
@@ -34,9 +34,9 @@ To build the `projectriff/builder` builder you'll need
 Then, building the builder is as simple as
 [source,bash]
 ----
-git clone https://github.com/projectriff/riff-buildpack-group
-cd riff-buildpack-group
-pack create-builder -b builder-riff.toml projectriff/builder
+git clone https://github.com/projectriff/builder
+cd builder
+pack create-builder -b builder.toml projectriff/builder
 ----
 
 === Using the Builder Locally
