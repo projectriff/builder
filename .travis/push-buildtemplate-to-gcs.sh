@@ -12,6 +12,8 @@ CI_TAG="${version}-ci-${id}"
 gcloud auth activate-service-account --key-file <(echo $GCLOUD_CLIENT_SECRET | base64 --decode)
 
 # function build template
+echo "Publish function builder"
+
 sed "s|projectriff/builder:latest|projectriff/builder:${CI_TAG}|" riff-function-clusterbuildtemplate.yaml > riff-function-clusterbuildtemplate-${CI_TAG}.yaml
 sed "s|projectriff/builder:latest|projectriff/builder:${version}|" riff-function-clusterbuildtemplate.yaml > riff-function-clusterbuildtemplate-${version}.yaml
 
@@ -20,15 +22,19 @@ gsutil cp -a public-read riff-function-clusterbuildtemplate-${version}.yaml gs:/
 gsutil cp -a public-read riff-function-clusterbuildtemplate-${CI_TAG}.yaml gs://projectriff/riff-buildtemplate/riff-function-clusterbuildtemplate.yaml
 
 # application build template
+echo "Publish application builder"
+
 gsutil cp -a public-read riff-application-clusterbuildtemplate.yaml gs://projectriff/riff-buildtemplate/riff-application-clusterbuildtemplate-${CI_TAG}.yaml
 gsutil cp -a public-read riff-application-clusterbuildtemplate.yaml gs://projectriff/riff-buildtemplate/riff-application-clusterbuildtemplate-${version}.yaml
 gsutil cp -a public-read riff-application-clusterbuildtemplate.yaml gs://projectriff/riff-buildtemplate/riff-application-clusterbuildtemplate.yaml
 
 # update version references
-gsutil cp -h 'Content-Type: text/plain' -h 'Cache-Control: private' -a public-read <(echo "${CI_TAG}") gs://projectriff/riff-buildtemplate/versions/builds/${branch}
-gsutil cp -h 'Content-Type: text/plain' -h 'Cache-Control: private' -a public-read <(echo "${CI_TAG}") gs://projectriff/riff-buildtemplate/versions/builds/${version}
+echo "Publish builder references"
+
+echo "${CI_TAG}" | gsutil cp -h 'Content-Type: text/plain' -h 'Cache-Control: private' -a public-read -I gs://projectriff/riff-buildtemplate/versions/builds/${branch}
+echo "${CI_TAG}" | gsutil cp -h 'Content-Type: text/plain' -h 'Cache-Control: private' -a public-read -I gs://projectriff/riff-buildtemplate/versions/builds/${version}
 if [[ ${version} != *"-snapshot" ]] ; then
-  gsutil cp -h 'Content-Type: text/plain' -h 'Cache-Control: private' -a public-read <(echo "${CI_TAG}") gs://projectriff/riff-buildtemplate/versions/releases/${branch}
+  echo "${CI_TAG}" | gsutil cp -h 'Content-Type: text/plain' -h 'Cache-Control: private' -a public-read -I gs://projectriff/riff-buildtemplate/versions/releases/${branch}
   # avoids overwriting existing values
-  gsutil cp -n -h 'Content-Type: text/plain' -h 'Cache-Control: private' -a public-read <(echo "${CI_TAG}") gs://projectriff/riff-buildtemplate/versions/releases/${version}
+  echo "${CI_TAG}" | gsutil cp -n -h 'Content-Type: text/plain' -h 'Cache-Control: private' -a public-read -I gs://projectriff/riff-buildtemplate/versions/releases/${version}
 fi
