@@ -31,10 +31,10 @@ gsutil cp -a public-read riff-application-clusterbuildtemplate.yaml gs://project
 # update version references
 echo "Publish builder references"
 
-echo "${CI_TAG}" | gsutil cp -h 'Content-Type: text/plain' -h 'Cache-Control: private' -a public-read -I gs://projectriff/riff-buildtemplate/versions/builds/${branch}
-echo "${CI_TAG}" | gsutil cp -h 'Content-Type: text/plain' -h 'Cache-Control: private' -a public-read -I gs://projectriff/riff-buildtemplate/versions/builds/${version}
+echo "${CI_TAG}" | gsutil -h 'Content-Type: text/plain' -h 'Cache-Control: private' cp -a public-read -I gs://projectriff/riff-buildtemplate/versions/builds/${branch}
+echo "${CI_TAG}" | gsutil -h 'Content-Type: text/plain' -h 'Cache-Control: private' cp -a public-read -I gs://projectriff/riff-buildtemplate/versions/builds/${version}
 if [[ ${version} != *"-snapshot" ]] ; then
-  echo "${CI_TAG}" | gsutil cp -h 'Content-Type: text/plain' -h 'Cache-Control: private' -a public-read -I gs://projectriff/riff-buildtemplate/versions/releases/${branch}
+  echo "${CI_TAG}" | gsutil -h 'Content-Type: text/plain' -h 'Cache-Control: private' cp -a public-read -I gs://projectriff/riff-buildtemplate/versions/releases/${branch}
   # avoids overwriting existing values
-  echo "${CI_TAG}" | gsutil cp -n -h 'Content-Type: text/plain' -h 'Cache-Control: private' -a public-read -I gs://projectriff/riff-buildtemplate/versions/releases/${version}
+  echo "${CI_TAG}" | gsutil -n -h 'Content-Type: text/plain' -h 'Cache-Control: private' cp -a public-read -I gs://projectriff/riff-buildtemplate/versions/releases/${version}
 fi
