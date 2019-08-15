@@ -37,5 +37,5 @@ gsutil -h 'Content-Type: text/plain' -h 'Cache-Control: private' cp -a public-re
 if [[ ${version} != *"-snapshot" ]] ; then
   gsutil -h 'Content-Type: text/plain' -h 'Cache-Control: private' cp -a public-read <(echo "${slug}") gs://projectriff/riff-buildtemplate/versions/releases/${git_branch}
   # avoids overwriting existing values
-  gsutil -n -h 'Content-Type: text/plain' -h 'Cache-Control: private' cp -a public-read <(echo "${slug}") gs://projectriff/riff-buildtemplate/versions/releases/${version}
+  gsutil -h 'Content-Type: text/plain' -h 'Cache-Control: private' cp -n -a public-read <(echo "${slug}") gs://projectriff/riff-buildtemplate/versions/releases/${version}
 fi
