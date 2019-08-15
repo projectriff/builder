@@ -11,4 +11,4 @@ deploy:
   provider: script
   script: .travis/push-to-dockerhub.sh && .travis/push-buildtemplate-to-gcs.sh
   on:
-    branch: master
+    branch: v0.4.x
