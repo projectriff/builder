@@ -15,6 +15,7 @@ gcloud auth activate-service-account --key-file <(echo $GCLOUD_CLIENT_SECRET | b
 # function build template
 echo "Publish function builder"
 
+## knative build (deprecated)
 sed "s|projectriff/builder:latest|projectriff/builder:${slug}|" riff-function-clusterbuildtemplate.yaml > riff-function-clusterbuildtemplate-${slug}.yaml
 sed "s|projectriff/builder:latest|projectriff/builder:${version}|" riff-function-clusterbuildtemplate.yaml > riff-function-clusterbuildtemplate-${version}.yaml
 
@@ -22,12 +23,26 @@ gsutil cp -a public-read riff-function-clusterbuildtemplate-${slug}.yaml gs://pr
 gsutil cp -a public-read riff-function-clusterbuildtemplate-${version}.yaml gs://projectriff/riff-buildtemplate/
 gsutil cp -a public-read riff-function-clusterbuildtemplate-${slug}.yaml gs://projectriff/riff-buildtemplate/riff-function-clusterbuildtemplate.yaml
 
+## kpack
+sed "s|projectriff/builder:latest|projectriff/builder:${slug}|" riff-function-clusterbuilder.yaml > riff-function-clusterbuilder-${slug}.yaml
+sed "s|projectriff/builder:latest|projectriff/builder:${version}|" riff-function-clusterbuilder.yaml > riff-function-clusterbuilder-${version}.yaml
+
+gsutil cp -a public-read riff-function-clusterbuilder-${slug}.yaml gs://projectriff/riff-buildtemplate/
+gsutil cp -a public-read riff-function-clusterbuilder-${version}.yaml gs://projectriff/riff-buildtemplate/
+gsutil cp -a public-read riff-function-clusterbuilder-${slug}.yaml gs://projectriff/riff-buildtemplate/riff-function-clusterbuilder.yaml
+
 # application build template
 echo "Publish application builder"
 
+## knative build (deprecated)
 gsutil cp -a public-read riff-application-clusterbuildtemplate.yaml gs://projectriff/riff-buildtemplate/riff-application-clusterbuildtemplate-${slug}.yaml
 gsutil cp -a public-read riff-application-clusterbuildtemplate.yaml gs://projectriff/riff-buildtemplate/riff-application-clusterbuildtemplate-${version}.yaml
 gsutil cp -a public-read riff-application-clusterbuildtemplate.yaml gs://projectriff/riff-buildtemplate/riff-application-clusterbuildtemplate.yaml
+
+## kpack
+gsutil cp -a public-read riff-application-clusterbuilder.yaml gs://projectriff/riff-buildtemplate/riff-application-clusterbuilder-${slug}.yaml
+gsutil cp -a public-read riff-application-clusterbuilder.yaml gs://projectriff/riff-buildtemplate/riff-application-clusterbuilder-${version}.yaml
+gsutil cp -a public-read riff-application-clusterbuilder.yaml gs://projectriff/riff-buildtemplate/riff-application-clusterbuilder.yaml
 
 # update version references
 echo "Publish builder references"
