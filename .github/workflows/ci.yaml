@@ -48,7 +48,7 @@ jobs:
       env:
         GCLOUD_CLIENT_SECRET: ${{ secrets.GCLOUD_CLIENT_SECRET }}
     - name: docker login
-      run: docker login -u "${DOCKER_USERNAME}" -p "$(echo ${DOCKER_PASSWORD} | base64 --decode)"
+      run: echo $DOCKER_PASSWORD | docker login --username $DOCKER_USERNAME --password-stdin
       env:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
