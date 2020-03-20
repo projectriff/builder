@@ -27,4 +27,3 @@ clean:
 
 templates:
 	./ci/apply-template.sh builder.toml.tpl.tpl > builder.toml.tpl
-	./ci/apply-template.sh riff-application-clusterbuilder.yaml.tpl > riff-application-clusterbuilder.yaml
