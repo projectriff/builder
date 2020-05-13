@@ -3,4 +3,4 @@ kind: ClusterBuilder
 metadata:
   name: riff-application
 spec:
-  image: paketobuildpacks/builder:bionic-platform-api-0.3
+  image: gcr.io/paketo-buildpacks/builder:bionic-platform-api-0.3
