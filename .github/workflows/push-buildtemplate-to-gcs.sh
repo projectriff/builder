@@ -15,23 +15,23 @@ echo "Publish function builder"
 sed "s|projectriff/builder:latest|projectriff/builder:${slug}|" riff-function-clusterbuilder.yaml > riff-function-clusterbuilder-${slug}.yaml
 sed "s|projectriff/builder:latest|projectriff/builder:${version}|" riff-function-clusterbuilder.yaml > riff-function-clusterbuilder-${version}.yaml
 
-gsutil cp -a public-read riff-function-clusterbuilder-${slug}.yaml gs://projectriff/riff-buildtemplate/
-gsutil cp -a public-read riff-function-clusterbuilder-${version}.yaml gs://projectriff/riff-buildtemplate/
-gsutil cp -a public-read riff-function-clusterbuilder-${slug}.yaml gs://projectriff/riff-buildtemplate/riff-function-clusterbuilder.yaml
+gsutil cp riff-function-clusterbuilder-${slug}.yaml gs://projectriff/riff-buildtemplate/
+gsutil cp riff-function-clusterbuilder-${version}.yaml gs://projectriff/riff-buildtemplate/
+gsutil cp riff-function-clusterbuilder-${slug}.yaml gs://projectriff/riff-buildtemplate/riff-function-clusterbuilder.yaml
 
 echo "Publish application builder"
 
-gsutil cp -a public-read riff-application-clusterbuilder.yaml gs://projectriff/riff-buildtemplate/riff-application-clusterbuilder-${slug}.yaml
-gsutil cp -a public-read riff-application-clusterbuilder.yaml gs://projectriff/riff-buildtemplate/riff-application-clusterbuilder-${version}.yaml
-gsutil cp -a public-read riff-application-clusterbuilder.yaml gs://projectriff/riff-buildtemplate/riff-application-clusterbuilder.yaml
+gsutil cp riff-application-clusterbuilder.yaml gs://projectriff/riff-buildtemplate/riff-application-clusterbuilder-${slug}.yaml
+gsutil cp riff-application-clusterbuilder.yaml gs://projectriff/riff-buildtemplate/riff-application-clusterbuilder-${version}.yaml
+gsutil cp riff-application-clusterbuilder.yaml gs://projectriff/riff-buildtemplate/riff-application-clusterbuilder.yaml
 
 # update version references
 echo "Publish builder references"
 
-gsutil -h 'Content-Type: text/plain' -h 'Cache-Control: private' cp -a public-read <(echo "${slug}") gs://projectriff/riff-buildtemplate/versions/builds/${git_branch}
-gsutil -h 'Content-Type: text/plain' -h 'Cache-Control: private' cp -a public-read <(echo "${slug}") gs://projectriff/riff-buildtemplate/versions/builds/${version}
+gsutil -h 'Content-Type: text/plain' -h 'Cache-Control: private' cp <(echo "${slug}") gs://projectriff/riff-buildtemplate/versions/builds/${git_branch}
+gsutil -h 'Content-Type: text/plain' -h 'Cache-Control: private' cp <(echo "${slug}") gs://projectriff/riff-buildtemplate/versions/builds/${version}
 if [[ ${version} != *"-snapshot" ]] ; then
-  gsutil -h 'Content-Type: text/plain' -h 'Cache-Control: private' cp -a public-read <(echo "${slug}") gs://projectriff/riff-buildtemplate/versions/releases/${git_branch}
+  gsutil -h 'Content-Type: text/plain' -h 'Cache-Control: private' cp <(echo "${slug}") gs://projectriff/riff-buildtemplate/versions/releases/${git_branch}
   # avoids overwriting existing values
-  gsutil -h 'Content-Type: text/plain' -h 'Cache-Control: private' cp -n -a public-read <(echo "${slug}") gs://projectriff/riff-buildtemplate/versions/releases/${version}
+  gsutil -h 'Content-Type: text/plain' -h 'Cache-Control: private' cp -n <(echo "${slug}") gs://projectriff/riff-buildtemplate/versions/releases/${version}
 fi
