@@ -17,3 +17,8 @@ echo "Publish application builder"
 
 gsutil cp riff-application-clusterbuilder.yaml gs://projectriff/riff-buildtemplate/riff-application-clusterbuilder-${git_tag}.yaml
 gsutil cp riff-application-clusterbuilder.yaml gs://projectriff/riff-buildtemplate/riff-application-clusterbuilder.yaml
+
+# update version references
+echo "Publish builder references"
+
+gsutil -h 'Content-Type: text/plain' -h 'Cache-Control: private' cp <(echo "${git_tag}") gs://projectriff/riff-buildtemplate/versions/releases/latest
