@@ -4,7 +4,7 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
-readonly git_tag=${1:12} # drop 'refs/tags/v' prefix
+readonly git_tag=${1:11} # drop 'refs/tags/v' prefix
 
 echo "Publish function builder"
 
