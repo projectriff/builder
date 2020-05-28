@@ -3,4 +3,4 @@ kind: ClusterBuilder
 metadata:
   name: riff-function
 spec:
-  image: projectriff/builder:latest
+  image: gcr.io/projectriff/builder:latest

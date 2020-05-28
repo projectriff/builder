@@ -27,31 +27,16 @@ jobs:
 
   publish:
     needs: test
-    if: |
-      github.event_name == 'push' && (
-        github.ref == 'refs/heads/master' || (
-          startsWith(github.ref, 'refs/heads/v') && endsWith(github.ref, 'x')
-        )
-      )
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Install pack
-      run: (export GH=buildpacks/pack; export LATEST=$(curl -s https://api.github.com/repos/$GH/releases/latest | grep -o -E "https://.+?-linux.tgz" | head -1); echo "$LATEST"; curl -sSL "$LATEST" | sudo tar -C /usr/local/bin/ --no-same-owner -xzv $(basename $GH))
-    - name: Create Builder
-      run: make build
     - name: gcloud auth
       run: |
         gcloud config set disable_prompts True
         gcloud auth activate-service-account --key-file <(echo $GCLOUD_CLIENT_SECRET | base64 --decode)
+        gcloud auth configure-docker
       env:
         GCLOUD_CLIENT_SECRET: ${{ secrets.GCLOUD_CLIENT_SECRET }}
-    - name: docker login
-      run: echo $DOCKER_PASSWORD | docker login --username $DOCKER_USERNAME --password-stdin
-      env:
-        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-    - name: Publish Image
-      run: .github/workflows/push-to-dockerhub.sh ${{ github.ref }}
     - name: Publish Builder
       run: .github/workflows/push-buildtemplate-to-gcs.sh ${{ github.ref }}
