@@ -1,29 +1,10 @@
-PACK=go run github.com/buildpacks/pack/cmd/pack
+PACK ?= pack
+BUILDER ?= projectriff/builder:dev-$(shell cat builder.toml | md5)
 
-.PHONY: build build-dev test grab-run-image templates
+.PHONY: build test
 
-build: builder.toml
-	$(PACK) create-builder -b builder.toml projectriff/builder
+build:
+	$(PACK) create-builder -b builder.toml $(BUILDER)
 
-build-dev: builder-dev.toml
-	$(PACK) create-builder -b builder-dev.toml projectriff/builder
-
-test: grab-run-image
-	GO111MODULE=on go test -v -tags=acceptance ./acceptance
-
-grab-run-image:
-	docker pull cloudfoundry/build:base-cnb
-	docker pull cloudfoundry/run:base-cnb
-
-builder.toml: builder.toml.tpl go.mod
-	./ci/apply-template.sh builder.toml.tpl > builder.toml
-
-builder-dev.toml: builder-dev.toml.tpl go.mod
-	./ci/apply-template.sh builder-dev.toml.tpl > builder-dev.toml
-
-clean:
-	rm builder.toml
-	rm builder-dev.toml
-
-templates:
-	./ci/apply-template.sh builder.toml.tpl.tpl > builder.toml.tpl
+test:
+	BUILDER=$(BUILDER) go test -v -tags=acceptance -count=1 ./acceptance
