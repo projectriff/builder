@@ -21,4 +21,5 @@ gsutil cp riff-application-clusterbuilder.yaml gs://projectriff/riff-buildtempla
 # update version references
 echo "Publish builder references"
 
-gsutil -h 'Content-Type: text/plain' -h 'Cache-Control: private' cp <(echo "${git_tag}") gs://projectriff/riff-buildtemplate/versions/releases/latest
+echo "${git_tag}" > slug.txt
+gsutil -h 'Content-Type: text/plain' -h 'Cache-Control: private' cp slug.txt gs://projectriff/riff-buildtemplate/versions/releases/latest
