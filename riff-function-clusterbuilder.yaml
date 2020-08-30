@@ -4,3 +4,6 @@ metadata:
   name: riff-function
 spec:
   tag: gcr.io/projectriff/builder:latest
+  serviceAccountRef:
+    namespace: riff-system
+    name: default

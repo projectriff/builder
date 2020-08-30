@@ -4,3 +4,6 @@ metadata:
   name: riff-application
 spec:
   tag: gcr.io/paketo-buildpacks/builder:base-platform-api-0.3
+  serviceAccountRef:
+    namespace: riff-system
+    name: default
