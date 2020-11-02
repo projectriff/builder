@@ -1,5 +1,3 @@
-path: ../../../projectriff/builder
-
 codeowners:
 - path:  "*"
   owner: "@projectriff/riff-dev"
